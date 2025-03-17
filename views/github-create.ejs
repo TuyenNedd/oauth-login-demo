@@ -1,0 +1,46 @@
+<%- include('layout', { title: title, body: `
+<div class="row mt-4">
+  <div class="col-md-8 m-auto">
+    <div class="card">
+      <div class="card-header">
+        <h5>
+          <i class="fab fa-github"></i> Create GitHub Repository
+        </h5>
+      </div>
+      <div class="card-body">
+        <form action="/github/create" method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label">Repository Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="e.g., my-awesome-project" required>
+            <small class="text-muted">Use only letters, numbers, hyphens, and underscores</small>
+          </div>
+          
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-control" placeholder="A short description of your repository"></textarea>
+          </div>
+          
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="isPrivate" name="isPrivate">
+            <label class="form-check-label" for="isPrivate">Private Repository</label>
+            <small class="text-muted d-block">Private repositories are only visible to you and people you share with</small>
+          </div>
+          
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="readme" name="readme" checked>
+            <label class="form-check-label" for="readme">Initialize with README</label>
+            <small class="text-muted d-block">This will add a README.md file to your repository</small>
+          </div>
+          
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-plus-circle"></i> Create Repository
+            </button>
+            <a href="/dashboard" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+` }) %>
