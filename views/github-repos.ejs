@@ -1,0 +1,68 @@
+<%- include('layout', { title: title, body: `
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>
+          <i class="fab fa-github"></i> My GitHub Repositories
+        </h5>
+        <a href="/github/create" class="btn btn-primary btn-sm">
+          <i class="fas fa-plus"></i> New Repository
+        </a>
+      </div>
+      <div class="card-body">
+        <% if (repos && repos.length > 0) { %>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Visibility</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% repos.forEach(repo => { %>
+                  <tr>
+                    <td>
+                      <a href="/github/repo/<%= repo.name %>" class="text-decoration-none">
+                        <%= repo.name %>
+                      </a>
+                    </td>
+                    <td><%= repo.description || 'No description' %></td>
+                    <td>
+                      <% if (repo.private) { %>
+                        <span class="badge bg-secondary">Private</span>
+                      <% } else { %>
+                        <span class="badge bg-success">Public</span>
+                      <% } %>
+                    </td>
+                    <td><%= new Date(repo.created_at).toLocaleDateString() %></td>
+                    <td>
+                      <div class="btn-group">
+                        <a href="/github/repo/<%= repo.name %>" class="btn btn-sm btn-outline-primary">
+                          <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="<%= repo.html_url %>" target="_blank" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-external-link-alt"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> You don't have any repositories yet.
+            <a href="/github/create" class="alert-link">Create your first repository</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+` }) %>
