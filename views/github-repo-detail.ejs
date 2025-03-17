@@ -1,0 +1,102 @@
+<%- include('layout', { title: title, body: `
+<div class="row mt-4">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5>
+          <i class="fab fa-github"></i> ${repo.name}
+        </h5>
+        <div>
+          <a href="/github/repos" class="btn btn-outline-secondary btn-sm me-2">
+            <i class="fas fa-arrow-left"></i> Back to Repos
+          </a>
+          <a href="${repo.html_url}" target="_blank" class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-external-link-alt"></i> View on GitHub
+          </a>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="mb-4">
+          <h6>Repository Details</h6>
+          <p class="ms-3">${repo.description || 'No description provided.'}</p>
+          <div class="ms-3">
+            <span class="badge bg-${repo.private ? 'secondary' : 'success'}">
+              ${repo.private ? 'Private' : 'Public'}
+            </span>
+            <span class="badge bg-info text-dark">
+              <i class="fas fa-code-branch"></i> ${repo.default_branch}
+            </span>
+            <span class="badge bg-secondary">
+              <i class="fas fa-star"></i> ${repo.stargazers_count}
+            </span>
+            <span class="badge bg-secondary">
+              <i class="fas fa-code-branch"></i> ${repo.forks_count} forks
+            </span>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h6>Upload File</h6>
+          <form action="/github/upload" method="POST" class="border rounded p-3">
+            <input type="hidden" name="repoName" value="${repo.name}">
+            <div class="mb-3">
+              <label for="filePath" class="form-label">File Path</label>
+              <input type="text" id="filePath" name="filePath" class="form-control" placeholder="e.g., filename.txt or folder/file.js" required>
+            </div>
+            <div class="mb-3">
+              <label for="fileContent" class="form-label">File Content</label>
+              <textarea id="fileContent" name="fileContent" class="form-control" rows="6" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="commitMessage" class="form-label">Commit Message</label>
+              <input type="text" id="commitMessage" name="commitMessage" class="form-control" placeholder="e.g., Add new file">
+            </div>
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-upload"></i> Upload File
+            </button>
+          </form>
+        </div>
+
+        <div>
+          <h6>Repository Contents</h6>
+          <% if (contents && contents.length > 0) { %>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% contents.forEach(item => { %>
+                    <tr>
+                      <td>
+                        <i class="fas fa-${item.type === 'dir' ? 'folder' : 'file'} me-2"></i>
+                        <%= item.name %>
+                      </td>
+                      <td><%= item.type === 'dir' ? 'Directory' : 'File' %></td>
+                      <td><%= item.size <= 1024 ? item.size + ' B' : Math.round(item.size / 1024) + ' KB' %></td>
+                      <td>
+                        <a href="${item.html_url}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                          <i class="fas fa-external-link-alt"></i> View
+                        </a>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } else { %>
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle"></i> This repository is empty. Upload a file to get started.
+            </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+` }) %>
